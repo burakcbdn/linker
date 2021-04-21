@@ -1,5 +1,5 @@
 .lesson-page {
-    margin-left: 50px;
+
 }
 
 .lesson-title {
@@ -10,4 +10,35 @@
 .plusIcon {
     padding-left: 20px;
     padding-top: 5px;
+}
+
+.link-box {
+    border: none;
+    margin: auto;
+    margin-top: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 15px;
+    box-shadow: 1px 2px 5px rgb(177, 177, 177);
+    text-decoration: none;
+    color: black;
+    padding-top: 0.5px;
+    padding-bottom: 0.5px;
+    align-items: center;
+}
+
+.video-box {
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
+    margin: 15px;
+}
+
+.video {
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;
 }
