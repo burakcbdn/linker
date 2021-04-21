@@ -1,0 +1,13 @@
+.lesson-page {
+    margin-left: 50px;
+}
+
+.lesson-title {
+    display: flex;
+    align-items: center;
+}
+
+.plusIcon {
+    padding-left: 20px;
+    padding-top: 5px;
+}

@@ -1,0 +1,23 @@
+.lesson-item {
+    border: none;
+    width: 200px;
+    height: 60px;
+    margin: auto;
+    margin-top: 15px;
+    border-radius: 15px;
+    box-shadow: 1px 2px 5px rgb(177, 177, 177);
+    text-decoration: none;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lesson-item:hover {
+    background-color: rgb(205, 243, 248);
+    cursor: pointer;
+}
+
+.title {
+    text-decoration: none;
+}
