@@ -5,9 +5,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
+    <Router >
       <Switch>
-        <Route path="/" exact component={Home}/>
+        <Route path="/" exact component={Home} />
         <Route path="/:lessonId" exact component={LessonPage}/>
       </Switch>
     </Router>

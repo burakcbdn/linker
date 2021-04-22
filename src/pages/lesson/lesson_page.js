@@ -6,20 +6,65 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 function LessonPage({ match }) {
   const lessonId = match.params.lessonId;
 
-  const addNewLessonLink = () => {
-    openDialog();
-  };
-
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
   const [links, setLinks] = useState([]);
+
+  useEffect(() => {
+    fetchLinksOfLesson();
+  });
+
+  const url = `https://us-central1-linker-bb.cloudfunctions.net/app/api/links/`;
+
+  function getId(url) {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+
+    return match && match[2].length === 11 ? match[2] : null;
+  }
+
+  function changeToEmbedLink(url) {
+    const videoId = getId(url);
+    const embedLink = `https://www.youtube.com/embed/${videoId}`;
+    return embedLink;
+  }
+
+  const fetchLinksOfLesson = async () => {
+    const result = await fetch(url + lessonId);
+    const data = await result.json();
+    setLinks(data.reverse());
+  };
+
+  const addNewLink = () => {
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        link: changeToEmbedLink(link),
+        title: title,
+        lesson: lessonId,
+      }),
+    }).then(async (res) => {
+      const data = await res.json();
+      console.log(data);
+      closeDialog();
+      fetchLinksOfLesson();
+    });
+  };
+
+  const deleteLink = (linkIdToDelete) => {
+    const deleteURL = url + linkIdToDelete;
+    fetch(deleteURL, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+  };
 
   const openDialog = () => {
     setOpen(true);
@@ -29,21 +74,11 @@ function LessonPage({ match }) {
     setOpen(false);
   };
 
-  const addNewLink = () => {
-    const newLinks = [ { title, link },...links];
-
-    setLinks(newLinks);
-
-    closeDialog();
-  };
-
   const updateTitle = (newTitle) => {
-    console.log(newTitle.target.value);
     setTitle(newTitle.target.value);
   };
 
   const updateLink = (newLink) => {
-    console.log(newLink.target.value);
     setLink(newLink.target.value);
   };
 
@@ -57,20 +92,32 @@ function LessonPage({ match }) {
           alt=""
           height="40px"
           className="plusIcon"
-          onClick={addNewLessonLink}
+          onClick={openDialog}
         />
       </div>
 
       <div className="links">
         {links.map((link) => (
           <div className="link-box">
-            <h3>{link.title}</h3>
-            <div className="video-box">
-                <iframe 
-                    src={`https://www.youtube.com/embed/${link.link}`} title={link.title} className="video">
-                </iframe>
+            <div className="link-box-header">
+              <h3>{link.title}</h3>
+              <h4
+                style={{ color: "red" }}
+                onClick={() => {
+                  deleteLink(link["_id"]);
+                }}
+              >
+                X
+              </h4>
             </div>
-            
+
+            <div className="video-box">
+              <iframe
+                src={link.link}
+                title={link.title}
+                className="video"
+              ></iframe>
+            </div>
           </div>
         ))}
       </div>

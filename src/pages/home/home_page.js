@@ -1,6 +1,5 @@
 import "./home_page.css";
 import LessonItem from "../../components/lessonItem";
-import { Link } from "react-router-dom";
 
 function Home() {
   const lessons = [
@@ -29,12 +28,12 @@ function Home() {
   return (
     <div className="Home">
       <header className="linker-header">
-        <h1>Linker From BBTech for BB</h1>
-        <h6>Dersler</h6>
+        <h1>Linker From BB</h1>
+      </header>
+      <h4>Dersler</h4>
         {lessons.map((lesson) => (
           <LessonItem lesson={lesson}></LessonItem>
         ))}
-      </header>
     </div>
   );
 }
